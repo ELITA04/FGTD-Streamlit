@@ -1,9 +1,12 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+from pathlib import Path
+import base64
 
 import torch
 import torchvision
+from torchvision.utils import save_image
 
 from utils.process import convert_text_to_embeddings
 from architecture import face, mnist
@@ -67,70 +70,93 @@ def get_output(generator, device, shape, user_input=None, input_type='mnist'):
     if shape[0] > 1:
         nrow = shape[0] // 4
     norm_output = torchvision.utils.make_grid(output.detach(), nrow=nrow, normalize=True)
+    
     return np.transpose(norm_output.numpy(), (1, 2, 0))
 
 
+def read_markdown_file(markdown_file):
+    return Path(markdown_file).read_text()
+
 
 def main():
-    st.title('Face Generation from Textual Description')
+    st.markdown('# Face Generation from Textual Description  👩 👨 📋 ')
 
     # Get device
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    
+    dict_markdown = read_markdown_file('data_dictionary.md')
+    st.sidebar.markdown(dict_markdown)
 
     ##### Face GANS #####
-    st.subheader('Face Generation')
+    st.markdown('### Demo  ')
+    st.markdown('Image size : 64x64  and 256 x 256')
 
     # First load the model
     generator64, generator256 = load_face_generators(device)
 
     # Take in input text
-    user_input = st.text_input('Enter a text description', 'He is a man.')
-
+    user_input = st.text_area('Enter a text description', 'The man sports a 5 o’clock shadow. His hair is black in colour. He has big nose with bushy and arched eyebrows. The man looks attractive.')
 
     # Feed to Generator
-    output64 = get_output(generator64, device, (16, 100), user_input=user_input, input_type='face')    
+    output64 = get_output(generator64, device, (1, 100), user_input=user_input, input_type='face')    
     output256 = get_output(generator256, device, (1, 100), user_input=user_input, input_type='face')
 
     # Display image
-    st.image(output64)
-    st.image(output256)
+    
+    st.image([output64, output256])
+
+    st.markdown('---')
 
     ##### MNIST GANS #####
-    st.subheader('MNIST Models')
+    st.markdown('##  MNIST Dataset (Digit and Fashion) ')
 
     # Load models
     generator_gan, generator_dcgan, generator_cgan, generator_acgan = load_mnist_generators(device)
 
+    st.markdown('### GANS ')
+    st.markdown('Epochs : 20 ')
     # GAN
     gan_df = read_csv('history/GANS.csv')
     st.line_chart(data=gan_df)
 
     gan_output = get_output(generator_gan, device, (64, 100))
     st.image(gan_output)
+    st.markdown('---')
 
     # DCGAN
+    st.markdown('### Deep Convolution GANS ')
+    st.markdown('Epochs : 20 ')
     dcgan_df = read_csv('history/DCGANS.csv')
     st.line_chart(data=dcgan_df)
 
     dcgan_output = get_output(generator_dcgan, device, (64, 100, 1, 1))
     st.image(dcgan_output)
-
-    label = st.slider('Slide for different values!', min_value=0, max_value=9, value=0)
+    st.markdown('---')
 
     # CGAN
+    st.markdown('### Conditional GANS ')
+    st.markdown('Epochs : 20 ')
+
+    cgan_label = st.slider('Slide for different digit images!', min_value=0, max_value=9, value=0)
+
+    cgan_output = get_output(generator_cgan, device, (64, 100), user_input=cgan_label)
+    st.image(cgan_output)
     cgan_df = read_csv('history/CGANS.csv')
     st.line_chart(data=cgan_df)
-
-    cgan_output = get_output(generator_cgan, device, (64, 100), user_input=label)
-    st.image(cgan_output)
+    st.markdown('---')
 
     # ACGAN
+    st.markdown('### Auxilary Conditional GANS ')
+    st.markdown('Epochs : 20 ')
+
+    acgan_label = st.slider('Slide for different fashion images!', min_value=0, max_value=9, value=0)
     st.text("0: 'T-shirt/top', 1: 'Trouser', 2: 'Pullover', 3: 'Dress', 4: 'Coat', 5: 'Sandal', 6: 'Shirt', 7: 'Sneaker', 8: 'Bag', 9: 'Ankle boot'")
+
+    acgan_output = get_output(generator_acgan, device, (64, 100), user_input=acgan_label)
+    st.image(acgan_output)
     acgan_df = read_csv('history/ACGANS.csv')
     st.line_chart(data=acgan_df)
-
-    acgan_output = get_output(generator_acgan, device, (64, 100), user_input=label)
-    st.image(acgan_output)
+    st.markdown('---')
 
 if __name__ == "__main__":
     main()
