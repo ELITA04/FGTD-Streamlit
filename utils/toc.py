@@ -1,6 +1,9 @@
 import streamlit as st
 
 class Toc:
+    '''
+    Implementation found on https://discuss.streamlit.io/t/table-of-contents-widget/3470/8
+    '''
     
     def __init__(self):
         self._items = []
