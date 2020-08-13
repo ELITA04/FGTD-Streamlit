@@ -1,5 +1,5 @@
-torchvision==0.7.0
-torch==1.6.0
+torchvision==0.7.0+cpu
+torch==1.6.0+cpu
 pandas==1.1.0
 numpy==1.19.0
 streamlit==0.64.0
