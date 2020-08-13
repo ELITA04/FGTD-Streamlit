@@ -9,6 +9,7 @@ import torchvision
 from torchvision.utils import save_image
 
 from utils.process import convert_text_to_embeddings
+from utils.toc import Toc
 from architecture import face, mnist
 
 @st.cache
@@ -79,13 +80,15 @@ def read_markdown_file(markdown_file):
 
 
 def main():
-    st.markdown('# Face Generation from Textual Description  👩 👨 📋 ')
+
+    toc = Toc()
+    toc.header('Face Generation from Textual Description  👩 👨 📋 ')
 
     # Get device
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     
-    dict_markdown = read_markdown_file('data_dictionary.md')
-    st.sidebar.markdown(dict_markdown)
+    #dict_markdown = read_markdown_file('data_dictionary.md')
+    #st.sidebar.markdown(dict_markdown)
 
     ##### Face GANS #####
     st.markdown('### Demo  ')
@@ -108,12 +111,12 @@ def main():
     st.markdown('---')
 
     ##### MNIST GANS #####
-    st.markdown('##  MNIST Dataset (Digit and Fashion) ')
+    toc.header('MNIST Dataset (Digit and Fashion) ')
 
     # Load models
     generator_gan, generator_dcgan, generator_cgan, generator_acgan = load_mnist_generators(device)
 
-    st.markdown('### GANS ')
+    toc.subheader('GANS ')
     st.markdown('Epochs : 20 ')
     # GAN
     gan_df = read_csv('history/GANS.csv')
@@ -124,7 +127,7 @@ def main():
     st.markdown('---')
 
     # DCGAN
-    st.markdown('### Deep Convolution GANS ')
+    toc.subheader('Deep Convolution GANS ')
     st.markdown('Epochs : 20 ')
     dcgan_df = read_csv('history/DCGANS.csv')
     st.line_chart(data=dcgan_df)
@@ -134,7 +137,7 @@ def main():
     st.markdown('---')
 
     # CGAN
-    st.markdown('### Conditional GANS ')
+    toc.subheader('Conditional GANS ')
     st.markdown('Epochs : 20 ')
 
     cgan_label = st.slider('Slide for different digit images!', min_value=0, max_value=9, value=0)
@@ -146,7 +149,7 @@ def main():
     st.markdown('---')
 
     # ACGAN
-    st.markdown('### Auxilary Conditional GANS ')
+    toc.subheader('Auxilary Conditional GANS ')
     st.markdown('Epochs : 20 ')
 
     acgan_label = st.slider('Slide for different fashion images!', min_value=0, max_value=9, value=0)
@@ -157,6 +160,11 @@ def main():
     acgan_df = read_csv('history/ACGANS.csv')
     st.line_chart(data=acgan_df)
     st.markdown('---')
+
+    toc.header('About Us')
+
+    toc.placeholder()
+    toc.generate()
 
 if __name__ == "__main__":
     main()
