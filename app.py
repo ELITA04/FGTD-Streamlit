@@ -86,9 +86,6 @@ def main():
 
     # Get device
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    
-    #dict_markdown = read_markdown_file('data_dictionary.md')
-    #st.sidebar.markdown(dict_markdown)
 
     ##### Face GANS #####
     st.markdown('### Demo  ')
