@@ -22,6 +22,7 @@ cd FGTD-Streamlit
  ```
  
  **4. Open the URL**
+ 
  Enter the URL specified in the console. It will be something similar to http://localhost:8501. You will be able to access the app here.
  
 
