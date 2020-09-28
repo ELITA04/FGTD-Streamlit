@@ -26,6 +26,8 @@ cd FGTD-Streamlit
  
  Enter the URL specified in the console. It will be something similar to http://localhost:8501. You will be able to access the app here.
  
+ ***
+ 
  ### Using a Virtual Environment (Like Anaconda)
  **1. Create and Activate a Virtual Environment**
  ```
@@ -42,6 +44,10 @@ cd FGTD-Streamlit
  ```
  streamlit run app.py
  ```
+ 
+ **4. Open the URL**
+ 
+ Streamlit will automatically open the browser for you. You can also open one of the links mentioned in the console.
  
 
 ## References
