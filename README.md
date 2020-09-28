@@ -5,6 +5,7 @@ Check the main repository [here](https://github.com/kad99kev/Face-Generator).
 ## Demo
 
 ## How to set it up locally
+### Using Docker
 **1. Clone the Repository**
 ```
 git clone https://github.com/kad99kev/FGTD-Streamlit
@@ -24,6 +25,23 @@ cd FGTD-Streamlit
  **4. Open the URL**
  
  Enter the URL specified in the console. It will be something similar to http://localhost:8501. You will be able to access the app here.
+ 
+ ### Using a Virtual Environment (Like Anaconda)
+ **1. Create and Activate a Virtual Environment**
+ ```
+ conda create --name <name> python=3.7
+ conda activate <name>
+ ```
+
+ **2. Download the Requirements**
+ ```
+ pip install requirements.txt
+ ```
+ 
+ **3. Run Streamlit**
+ ```
+ streamlit run app.py
+ ```
  
 
 ## References
