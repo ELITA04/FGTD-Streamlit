@@ -113,10 +113,10 @@ def main():
     # Load models
     generator_gan, generator_dcgan, generator_cgan, generator_acgan = load_mnist_generators(device)
 
-    toc.subheader('GANS ')
+    toc.subheader('GANs ')
     st.markdown('Epochs : 20 ')
     # GAN
-    gan_df = read_csv('history/GANS.csv')
+    gan_df = read_csv('history/gan.csv')
     st.line_chart(data=gan_df)
 
     gan_output = get_output(generator_gan, device, (64, 100))
@@ -124,9 +124,9 @@ def main():
     st.markdown('---')
 
     # DCGAN
-    toc.subheader('Deep Convolution GANS ')
+    toc.subheader('Deep Convolution GANs ')
     st.markdown('Epochs : 20 ')
-    dcgan_df = read_csv('history/DCGANS.csv')
+    dcgan_df = read_csv('history/dcgan.csv')
     st.line_chart(data=dcgan_df)
 
     dcgan_output = get_output(generator_dcgan, device, (64, 100, 1, 1))
@@ -134,19 +134,19 @@ def main():
     st.markdown('---')
 
     # CGAN
-    toc.subheader('Conditional GANS ')
+    toc.subheader('Conditional GANs ')
     st.markdown('Epochs : 20 ')
 
     cgan_label = st.slider('Slide for different digit images!', min_value=0, max_value=9, value=0)
 
     cgan_output = get_output(generator_cgan, device, (64, 100), user_input=cgan_label)
     st.image(cgan_output)
-    cgan_df = read_csv('history/CGANS.csv')
+    cgan_df = read_csv('history/cgan.csv')
     st.line_chart(data=cgan_df)
     st.markdown('---')
 
     # ACGAN
-    toc.subheader('Auxilary Conditional GANS ')
+    toc.subheader('Auxilary Conditional GANs ')
     st.markdown('Epochs : 20 ')
 
     acgan_label = st.slider('Slide for different fashion images!', min_value=0, max_value=9, value=0)
@@ -154,11 +154,10 @@ def main():
 
     acgan_output = get_output(generator_acgan, device, (64, 100), user_input=acgan_label)
     st.image(acgan_output)
-    acgan_df = read_csv('history/ACGANS.csv')
+    acgan_df = read_csv('history/acgan.csv')
     st.line_chart(data=acgan_df)
     st.markdown('---')
 
-    toc.header('About Us')
 
     toc.placeholder()
     toc.generate()
