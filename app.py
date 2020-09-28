@@ -95,11 +95,26 @@ def main():
     generator64, generator256 = load_face_generators(device)
 
     # Take in input text
-    user_input = st.text_area('Enter a text description', 'The man sports a 5 o’clock shadow. His hair is black in colour. He has big nose with bushy and arched eyebrows. The man looks attractive.')
+        # Examples Button
+    if st.button('Example 1'):
+        user_input = 'The woman has high cheekbones. She has straight hair which is black in colour. She has big lips with arched eyebrows. The smiling, young woman has rosy cheeks and heavy makeup. She is wearing lipstick.'
+
+    if st.button('Example 2'):
+        user_input = 'The man sports a 5 o’clock shadow and mustache. He has a receding hairline. He has big lips and big nose, narrow eyes and a slightly open mouth. The young attractive man is smiling. He’s wearing necktie.'
+
+    if st.button('Example 3'):
+        user_input = 'The man has straight hair. He has arched eyebrows.The man looks young and attractive. He’s wearing necktie.'
+
+    try:
+        print(user_input)
+        user_input = st.text_area('Try it yourself!', user_input)
+    except NameError:
+        user_input = st.text_area('Try it yourself!', 'The man sports a 5 o’clock shadow. His hair is black in colour. He has big nose with bushy and arched eyebrows. The man looks attractive.')
 
     # Feed to Generator
     output64 = get_output(generator64, device, (1, 100), user_input=user_input, input_type='face')    
     output256 = get_output(generator256, device, (1, 100), user_input=user_input, input_type='face')
+
 
     # Display image
     
