@@ -106,7 +106,6 @@ def main():
         user_input = 'The man has straight hair. He has arched eyebrows.The man looks young and attractive. He’s wearing necktie.'
 
     try:
-        print(user_input)
         user_input = st.text_area('Try it yourself!', user_input)
     except NameError:
         user_input = st.text_area('Try it yourself!', 'The man sports a 5 o’clock shadow. His hair is black in colour. He has big nose with bushy and arched eyebrows. The man looks attractive.')
