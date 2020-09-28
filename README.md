@@ -1,32 +1,31 @@
-# Face Generation from textual description - Streamlit App
+# Face Generation from Textual Description - Streamlit App
 
-Check the main repository [here](https://github.com/kad99kev/Face-Generator)
+Check the main repository [here](https://github.com/kad99kev/Face-Generator).
 
 ## Demo
 
 ## How to set it up locally
-**Clone the repository**
+**1. Clone the Repository**
 ```
-git clone <repo_url>
-```
-
-**Create and activate a virtual environment**
-```
-conda create --name <name> python=3.7
-conda activate <name>
+git clone https://github.com/kad99kev/FGTD-Streamlit
 ```
 
-**Download the requirements**
+**2. Change Working Directory**
 ```
-pip install requirements.txt
+cd FGTD-Streamlit
 ```
 
-**Run the app**
+**3. Setup Docker**
  ```
- streamlit run <filename>
+ docker image build -t streamlit:app .
+ docker container run -p 8501:8501 -d streamlit:app
  ```
+ 
+ **4. Open the URL**
+ Enter the URL specified in the console. It will be something similar to http://localhost:8501. You will be able to access the app here.
  
 
 ## References
-- [Streamlit documentation](https://docs.streamlit.io/en/stable/)
-- [Streamlit 101: An in-depth introduction](https://towardsdatascience.com/streamlit-101-an-in-depth-introduction-fc8aad9492f2)
+- [Streamlit documentation](https://docs.streamlit.io/en/stable/).
+- [Streamlit 101: An in-depth introduction](https://towardsdatascience.com/streamlit-101-an-in-depth-introduction-fc8aad9492f2).
+- [A curated list of awesome streamlit resources](https://github.com/MarcSkovMadsen/awesome-streamlit).
