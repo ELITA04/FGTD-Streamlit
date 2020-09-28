@@ -29,23 +29,34 @@ cd FGTD-Streamlit
  ***
  
  ### Using a Virtual Environment (Like Anaconda)
- **1. Create and Activate a Virtual Environment**
+ 
+ **1. Clone the Repository**
+ ```
+ git clone https://github.com/kad99kev/FGTD-Streamlit
+ ```
+ 
+ **2. Change Working Directory**
+ ```
+ cd FGTD-Streamlit
+ ```
+ 
+ **3. Create and Activate a Virtual Environment**
  ```
  conda create --name <name> python=3.7
  conda activate <name>
  ```
 
- **2. Download the Requirements**
+ **4. Download the Requirements**
  ```
  pip install requirements.txt
  ```
  
- **3. Run Streamlit**
+ **5. Run Streamlit**
  ```
  streamlit run app.py
  ```
  
- **4. Open the URL**
+ **6. Open the URL**
  
  Streamlit will automatically open the browser for you. You can also open one of the links mentioned in the console.
  
