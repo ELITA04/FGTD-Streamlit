@@ -4,7 +4,28 @@ Check the main repository [here](https://github.com/kad99kev/Face-Generator)
 
 ## Demo
 
-## Project Structure
+## How to set it up locally
+**Clone the repository**
+```
+git clone <repo_url>
+```
+
+**Create and activate a virtual environment**
+```
+conda create --name <name> python=3.7
+conda activate <name>
+```
+
+**Download the requirements**
+```
+pip install requirements.txt
+```
+
+**Run the app**
+ ```
+ streamlit run <filename>
+ ```
+ 
 
 ## References
 - [Streamlit documentation](https://docs.streamlit.io/en/stable/)
