@@ -26,10 +26,10 @@ def load_face_generators(device):
     sagan128 = face.SAGAN()
     dfgan128 = face.DFGAN()
 
-    dcgan64.load_state_dict(torch.load("model/face/dcgan64.pt", map_location=device))
-    dcgan256.load_state_dict(torch.load("model/face/dcgan256.pt", map_location=device))
-    sagan128.load_state_dict(torch.load("model/face/sagan128.pt", map_location=device))
-    dfgan128.load_state_dict(torch.load("model/face/dfgan128.pt", map_location=device))
+    dcgan64.load_state_dict(torch.load("models/face/dcgan64.pt", map_location=device))
+    dcgan256.load_state_dict(torch.load("models/face/dcgan256.pt", map_location=device))
+    sagan128.load_state_dict(torch.load("models/face/sagan128.pt", map_location=device))
+    dfgan128.load_state_dict(torch.load("models/face/dfgan128.pt", map_location=device))
 
     return dcgan64.eval(), dcgan256.eval(), sagan128.eval(), dfgan128.eval()
 
@@ -41,13 +41,13 @@ def load_mnist_generators(device):
     cgan = mnist.CGAN()
     acgan = mnist.ACGAN()
 
-    gan.load_state_dict(torch.load("model/mnist/digit/gan.pt", map_location=device))
+    gan.load_state_dict(torch.load("models/mnist/digit/gan.pt", map_location=device))
     dcgan.load_state_dict(
-        torch.load("model/mnist/fashion/dcgan.pt", map_location=device)
+        torch.load("models/mnist/fashion/dcgan.pt", map_location=device)
     )
-    cgan.load_state_dict(torch.load("model/mnist/digit/cgan.pt", map_location=device))
+    cgan.load_state_dict(torch.load("models/mnist/digit/cgan.pt", map_location=device))
     acgan.load_state_dict(
-        torch.load("model/mnist/fashion/acgan.pt", map_location=device)
+        torch.load("models/mnist/fashion/acgan.pt", map_location=device)
     )
 
     return gan.eval(), dcgan.eval(), cgan.eval(), acgan.eval()
@@ -94,8 +94,7 @@ def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     ##### Face GANS #####
-    st.markdown("### Demo  ")
-    st.markdown("Image size : 64x64  and 256 x 256")
+    st.markdown("### Demo")
 
     # First load the model
     dcgan64, dcgan256, sagan128, dfgan128 = load_face_generators(device)
@@ -135,7 +134,7 @@ def main():
 
     # Display image
 
-    st.image([output64, output256, output_sagan, output_dfgan])
+    st.image([output64, output_sagan, output_dfgan, output256], caption=['DCGAN 64', 'SAGAN', 'DFGAN', 'DCGAN 256'])
 
     st.markdown("---")
 
