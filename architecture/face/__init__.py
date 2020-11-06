@@ -1,2 +1,3 @@
-from .gen64 import Generator64
-from .gen256 import Generator256
+from .dcgan import DCGAN64, DCGAN256
+from .dfgan import DFGAN
+from .sagan import SAGAN
