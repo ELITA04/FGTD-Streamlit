@@ -60,7 +60,7 @@ Check the main repository [here](https://github.com/kad99kev/Face-Generator).
  
   **6. Open the URL**
  
-  Streamlit will automatically open the browser for you. You can also open one of the links mentioned in the console.
+  Streamlit will automatically open the browser for you. You can also open one of the links mentioned in the console. The models will automatically download on the first run.
  
 
 ## References

@@ -4,3 +4,4 @@ pandas==1.1.0
 numpy==1.19.0
 streamlit==0.64.0
 sentence_transformers==0.3.6
+googledrivedownloader==0.4
