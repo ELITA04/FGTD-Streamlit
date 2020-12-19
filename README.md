@@ -1,6 +1,6 @@
 # Face Generation from Textual Description - Streamlit App
 
-Check the main repository [here](https://github.com/kad99kev/Face-Generator).
+Check the main repository [here](https://github.com/ELITA04/Face-Generator).
 
 ## Demo
 
@@ -10,7 +10,7 @@ Check the main repository [here](https://github.com/kad99kev/Face-Generator).
  ### Using Docker
   **1. Clone the Repository**
   ```
-  git clone https://github.com/kad99kev/FGTD-Streamlit
+  git clone https://github.com/ELITA04/FGTD-Streamlit
   ```
 
   **2. Change Working Directory**
@@ -34,7 +34,7 @@ Check the main repository [here](https://github.com/kad99kev/Face-Generator).
  
   **1. Clone the Repository**
   ```
-  git clone https://github.com/kad99kev/FGTD-Streamlit
+  git clone https://github.com/ELITA04/FGTD-Streamlit
   ```
  
   **2. Change Working Directory**
