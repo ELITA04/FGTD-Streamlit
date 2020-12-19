@@ -1,4 +1,5 @@
-# Face Generation from Textual Description - Streamlit App
+# Face Generation from Textual Description - Streamlit App [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/ELITA04/FGTD-Streamlit/app.py/)
+
 
 Check the main repository [here](https://github.com/ELITA04/Face-Generator).
 
