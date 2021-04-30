@@ -2,110 +2,49 @@ import torch
 import torch.nn as nn
 
 
-class DCGAN64(nn.Module):
-    """
-    The Generator Network
-    """
+class DCGAN(nn.Module):
 
-    def __init__(self):
-        super(DCGAN64, self).__init__()
-        self.image_size = 64
-        self.num_channels = 3
-        self.noise_dim = 100
-        self.embed_dim = 768
-        self.projected_embed_dim = 256
-        self.latent_dim = self.noise_dim + self.projected_embed_dim
-        self.ngf = 64
+    def __init__(
+        self, noise_size=100, feature_size=128, num_channels=3, embedding_size=768, reduced_dim_size=256
+    ):
+        super(DCGAN, self).__init__()
+        self.reduced_dim_size = reduced_dim_size
 
         self.projection = nn.Sequential(
-            nn.Linear(
-                in_features=self.embed_dim, out_features=self.projected_embed_dim
-            ),
-            nn.BatchNorm1d(num_features=self.projected_embed_dim),
+            nn.Linear(in_features=embedding_size, out_features=reduced_dim_size),
+            nn.BatchNorm1d(num_features=reduced_dim_size),
             nn.LeakyReLU(negative_slope=0.2, inplace=True),
         )
 
         self.layer = nn.Sequential(
-            nn.ConvTranspose2d(self.latent_dim, self.ngf * 8, 4, 1, 0, bias=False),
-            nn.BatchNorm2d(self.ngf * 8),
-            nn.LeakyReLU(negative_slope=0.2, inplace=True),
-            # state size (ngf*4) x 4 x 4
-            nn.ConvTranspose2d(self.ngf * 8, self.ngf * 4, 4, 2, 1, bias=False),
-            nn.BatchNorm2d(self.ngf * 4),
-            nn.ReLU(True),
-            # state size. (ngf*4) x 8 x 8
-            nn.ConvTranspose2d(self.ngf * 4, self.ngf * 2, 4, 2, 1, bias=False),
-            nn.BatchNorm2d(self.ngf * 2),
-            nn.ReLU(True),
-            # state size. (ngf*2) x 16 x 16
-            nn.ConvTranspose2d(self.ngf * 2, self.ngf, 4, 2, 1, bias=False),
-            nn.BatchNorm2d(self.ngf),
-            nn.ReLU(True),
-            # state size. (ngf) x 32 x 32
-            nn.ConvTranspose2d(self.ngf, self.num_channels, 4, 2, 1, bias=False),
-            nn.Tanh(),
-        )
-        self.optimG = torch.optim.Adam(self.parameters(), lr=0.0002, betas=(0.5, 0.999))
-
-    def forward(self, noise, text_embeddings):
-        encoded_text = self.projection(text_embeddings)
-        concat_input = torch.cat([noise, encoded_text], dim=1).unsqueeze(2).unsqueeze(2)
-        output = self.layer(concat_input)
-        return output
-
-
-class DCGAN256(nn.Module):
-    """
-    The Generator Network
-    """
-
-    def __init__(self):
-        super(DCGAN256, self).__init__()
-        self.image_size = 256
-        self.num_channels = 3
-        self.noise_dim = 100
-        self.embed_dim = 768
-        self.projected_embed_dim = 256
-        self.latent_dim = self.noise_dim + self.projected_embed_dim
-        self.ngf = self.image_size // 16
-
-        self.projection = nn.Sequential(
-            nn.Linear(
-                in_features=self.embed_dim, out_features=self.projected_embed_dim
+            nn.ConvTranspose2d(
+                noise_size + reduced_dim_size, feature_size * 8, 4, 1, 0, bias=False
             ),
-            nn.BatchNorm1d(num_features=self.projected_embed_dim),
-            nn.LeakyReLU(negative_slope=0.2, inplace=True),
-        )
-
-        self.layer = nn.Sequential(
-            nn.ConvTranspose2d(self.latent_dim, self.ngf * 32, 4, 1, 0, bias=False),
-            nn.BatchNorm2d(self.ngf * 32),
+            nn.BatchNorm2d(feature_size * 8),
             nn.LeakyReLU(negative_slope=0.2, inplace=True),
             # state size (ngf*4) x 4 x 4
-            nn.ConvTranspose2d(self.ngf * 32, self.ngf * 16, 4, 2, 1, bias=False),
-            nn.BatchNorm2d(self.ngf * 16),
+            nn.ConvTranspose2d(feature_size * 8, feature_size * 4, 4, 2, 1, bias=False),
+            nn.BatchNorm2d(feature_size * 4),
             nn.ReLU(True),
             # state size. (ngf*4) x 8 x 8
-            nn.ConvTranspose2d(self.ngf * 16, self.ngf * 8, 4, 2, 1, bias=False),
-            nn.BatchNorm2d(self.ngf * 8),
+            nn.ConvTranspose2d(feature_size * 4, feature_size * 2, 4, 2, 1, bias=False),
+            nn.BatchNorm2d(feature_size * 2),
             nn.ReLU(True),
             # state size. (ngf*2) x 16 x 16
-            nn.ConvTranspose2d(self.ngf * 8, self.ngf * 4, 4, 2, 1, bias=False),
-            nn.BatchNorm2d(self.ngf * 4),
+            nn.ConvTranspose2d(feature_size * 2, feature_size, 4, 2, 1, bias=False),
+            nn.BatchNorm2d(feature_size),
             nn.ReLU(True),
-            # state size. (ngf) x 32 x 32
-            nn.ConvTranspose2d(self.ngf * 4, self.ngf * 2, 4, 2, 1, bias=False),
-            nn.BatchNorm2d(self.ngf * 2),
+            # state size. (ngf*2) x 32 x 32
+            nn.ConvTranspose2d(feature_size, feature_size, 4, 2, 1, bias=False),
+            nn.BatchNorm2d(feature_size),
             nn.ReLU(True),
             # state size. (ngf) x 64 x 64
-            nn.ConvTranspose2d(self.ngf * 2, self.ngf, 4, 2, 1, bias=False),
-            nn.BatchNorm2d(self.ngf),
-            nn.ReLU(True),
-            # state size. (ngf) x 128 x 128
-            nn.ConvTranspose2d(self.ngf, self.num_channels, 4, 2, 1, bias=False),
+            nn.ConvTranspose2d(feature_size, num_channels, 4, 2, 1, bias=False),
             nn.Tanh(),
         )
-        self.optimG = torch.optim.Adam(self.parameters(), lr=0.0002, betas=(0.5, 0.999))
+        self.optimizer = torch.optim.Adam(
+            self.parameters(), lr=0.0002, betas=(0.5, 0.5)
+        )
 
     def forward(self, noise, text_embeddings):
         encoded_text = self.projection(text_embeddings)

@@ -1,3 +1,3 @@
-from .dcgan import DCGAN64, DCGAN256
+from .dcgan import DCGAN
 from .dfgan import DFGAN
 from .sagan import SAGAN
