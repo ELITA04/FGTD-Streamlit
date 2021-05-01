@@ -1,4 +1,5 @@
 import streamlit as st
+import re
 
 
 class Toc:
@@ -10,14 +11,11 @@ class Toc:
         self._items = []
         self._placeholder = None
 
-    def title(self, text):
-        self._markdown(text, "h1")
+    def title(self, text, key):
+        self._markdown(text, text, key, "h1")
 
-    def header(self, text):
-        self._markdown(text, "h2", " " * 2)
-
-    def subheader(self, text):
-        self._markdown(text, "h3", " " * 4)
+    def header(self, text, toc_text, key):
+        self._markdown(text, toc_text, key, "h2", " " * 2)
 
     def placeholder(self, sidebar=True):
         self._placeholder = st.sidebar.empty() if sidebar else st.empty()
@@ -26,14 +24,14 @@ class Toc:
         if self._placeholder:
             self._placeholder.markdown("\n".join(self._items), unsafe_allow_html=True)
 
-    def _markdown(self, text, level, space=""):
-        key = "".join(filter(str.isalnum, text)).lower()
-        tags = {"h1": "bold", "h2": "bold", "h3": ""}
+    def _markdown(self, text, toc_text, key, level, space=""):
+        key = re.sub(r"[^\w\s-]", "", text).strip().replace(" ", "-").lower()
+        tags = {"h1": "bold", "h2": ""}
 
         st.markdown(f"<{level} id='{key}'>{text}</{level}>", unsafe_allow_html=True)
 
         style = tags[level]
 
         self._items.append(
-            f"{space}* <a style='color: #DB0007; font-weight: {style};' href='#{key}'>{text}</a>"
+            f"{space}* <a style='color: #F63366; font-weight: {style}; text-decoration: none' href='#{key}'>{toc_text}</a>"
         )

@@ -3,9 +3,13 @@ import torch.nn as nn
 
 
 class DCGAN(nn.Module):
-
     def __init__(
-        self, noise_size=100, feature_size=128, num_channels=3, embedding_size=768, reduced_dim_size=256
+        self,
+        noise_size=100,
+        feature_size=128,
+        num_channels=3,
+        embedding_size=768,
+        reduced_dim_size=256,
     ):
         super(DCGAN, self).__init__()
         self.reduced_dim_size = reduced_dim_size

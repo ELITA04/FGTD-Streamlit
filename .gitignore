@@ -130,3 +130,6 @@ dmypy.json
 
 # Ignore models
 models/
+
+# Ignore vscode
+.vscode/

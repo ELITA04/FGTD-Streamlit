@@ -3,6 +3,7 @@ import torch
 
 from architecture import face, mnist
 
+
 @st.cache
 def load_face_generators(device):
     dcgan = face.DCGAN()
