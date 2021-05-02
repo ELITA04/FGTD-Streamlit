@@ -2,6 +2,10 @@ import streamlit as st
 
 
 def footer():
+    """
+    Footer for the application.
+    """
+
     st.markdown(
         "Link to the Streamlit Repository - [FGTD-Streamlit](https://github.com/ELITA04/FGTD-Streamlit)"
     )

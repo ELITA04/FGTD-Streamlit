@@ -6,6 +6,13 @@ sentence_model = SentenceTransformer("bert-base-nli-mean-tokens").to(device)
 
 
 def convert_text_to_embeddings(batch_text):
+    """
+    Converts the input text into embeddings.
+
+    Arguments:
+        batch_text: A list of input texts.
+    """
+
     stack = []
     for sent in batch_text:
         l = sent.split(". ")

@@ -3,6 +3,9 @@ from google_drive_downloader import GoogleDriveDownloader as gdd
 
 
 def download_models():
+    """
+    Downloads the models from Google Drive.
+    """
     if not os.path.exists("./models"):
         gdd.download_file_from_google_drive(
             file_id="1WxgfF1R9R_aaKnYVdEaEvdOHiEWwHjjo",

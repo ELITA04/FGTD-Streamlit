@@ -12,16 +12,41 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
 
+def get_sample(df):
+    """
+    Get a sample text from the seen or unseen files.
+
+    Arguments:
+        df: Dataframe containing texts.
+    """
+    sample = df.sample(replace=True)
+    return sample["text_description"].values[0]
+
+
 @st.cache
 def read_csv(path):
+    """
+    Read csv from path provided.
+
+    Arguments:
+        path: Path of the csv.
+    """
     df = pd.read_csv(path)
     return df
 
 
 @st.cache
-def get_output(
-    generator, device, shape, user_input=None, input_type="mnist", rand_num=None
-):
+def get_output(generator, device, shape, user_input=None, input_type="mnist"):
+    """
+    Generates outputs from the model and converts them into a gridded image.
+
+    Arguments:
+        generator: Generator model.
+        device: Current backend device.
+        shape: Shape of the noise vector.
+        user_input: Conditionally generate based on user input.
+        input_type: Whether the model is an MNIST GAN model or Face GAN model.
+    """
     input_noise = torch.randn(size=shape).to(device)
 
     divs = 4 if input_type == "mnist" else 2
@@ -51,6 +76,14 @@ def get_output(
 
 
 def face_graph(df, n_df, subplot_titles):
+    """
+    Produces a Loss vs Epoch graph of the respective Face GAN model.
+
+    Arguments:
+        df: Dataframe for single caption model.
+        n_df: Dataframe for N-caption model.
+        subplot_titles: Names of the single caption and N-caption model respectively.
+    """
     fig = make_subplots(rows=2, cols=1, subplot_titles=subplot_titles)
 
     step = df["step"].to_list()
@@ -122,6 +155,13 @@ def face_graph(df, n_df, subplot_titles):
 
 
 def mnist_graph(df):
+    """
+    Produces a Loss vs Epoch graph of the respective MNIST GAN model.
+
+    Arguments:
+        df: Dataframe for the model.
+    """
+
     fig = go.Figure()
 
     step = df["step"].to_list()

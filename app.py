@@ -1,17 +1,19 @@
 import streamlit as st
 import torch
 import random
+import gc
 
 from utils.toc import Toc
 from utils.model_downloader import download_models
 from utils.footer import footer
 
 from streamlit_utils.loaders import load_face_generators, load_mnist_generators
-from streamlit_utils.io import read_csv, get_output, face_graph, mnist_graph
+from streamlit_utils.io import get_sample, read_csv, get_output, face_graph, mnist_graph
 
 
 def main():
 
+    gc.enable()
     ##### Setup #####
     toc = Toc()
     toc.title("Face Generation from Textual Description  👩 👨 📋 ", "fgtd")
@@ -27,22 +29,30 @@ def main():
     dcgan, n_dcgan, sagan, n_sagan, dfgan, n_dfgan = load_face_generators(device)
 
     ##### Examples #####
-    butt_col1, butt_col2, butt_col3 = st.beta_columns(3)
+    seen_df = read_csv("examples/seen_text.csv")
+    unseen_df = read_csv("examples/unseen_text.csv")
+
+    butt_col1, butt_col2, butt_col3, butt_col4, butt_col5 = st.beta_columns(5)
 
     with butt_col1:
         if st.button("Example 1"):
             user_input = "The woman has high cheekbones. She has straight hair which is black in colour. She has big lips with arched eyebrows. The smiling, young woman has rosy cheeks and heavy makeup. She is wearing lipstick."
-            rand_num = random.random()
 
     with butt_col2:
         if st.button("Example 2"):
             user_input = "The man sports a 5 o’clock shadow and mustache. He has a receding hairline. He has big lips and big nose, narrow eyes and a slightly open mouth. The young attractive man is smiling. He’s wearing necktie."
-            rand_num = random.random()
 
     with butt_col3:
         if st.button("Example 3"):
             user_input = "The man has straight hair. He has arched eyebrows. The man looks young and attractive. He’s wearing necktie."
-            rand_num = random.random()
+
+    with butt_col4:
+        if st.button("Trained", help="Get a random example from training set."):
+            user_input = get_sample(seen_df)
+
+    with butt_col5:
+        if st.button("Unseen", help="Get a random example from untrained text."):
+            user_input = get_sample(unseen_df)
 
     try:
         user_input = st.text_area("Try it yourself!", user_input)
@@ -51,7 +61,6 @@ def main():
             "Try it yourself!",
             "The man sports a 5 o’clock shadow. His hair is black in colour. He has big nose with bushy and arched eyebrows. The man looks attractive.",
         )
-        rand_num = random.random()
 
     st.markdown("---")
 
@@ -60,20 +69,10 @@ def main():
     ##### DCGAN #####
     toc.header("Deep Convolution GAN", "DCGAN", "face-dcgan")
     output_dcgan = get_output(
-        dcgan,
-        device,
-        (4, 100),
-        user_input=user_input,
-        input_type="face",
-        rand_num=rand_num,
+        dcgan, device, (4, 100), user_input=user_input, input_type="face"
     )
     output_ndcgan = get_output(
-        n_dcgan,
-        device,
-        (4, 100),
-        user_input=user_input,
-        input_type="face",
-        rand_num=rand_num,
+        n_dcgan, device, (4, 100), user_input=user_input, input_type="face"
     )
 
     dc_col1, dc_col2 = st.beta_columns(2)
@@ -226,6 +225,8 @@ def main():
 
     ##### Footer #####
     footer()
+
+    gc.collect()
 
 
 if __name__ == "__main__":

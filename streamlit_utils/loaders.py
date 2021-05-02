@@ -6,6 +6,12 @@ from architecture import face, mnist
 
 @st.cache
 def load_face_generators(device):
+    """
+    Loads all the Face GAN models.
+
+    Arguments:
+        device: Current backend device.
+    """
     dcgan = face.DCGAN()
     n_dcgan = face.DCGAN()
 
@@ -42,6 +48,12 @@ def load_face_generators(device):
 
 @st.cache
 def load_mnist_generators(device):
+    """
+    Loads all the MNIST GAN models.
+
+    Arguments:
+        device: Current backend device.
+    """
     gan = mnist.GAN()
     dcgan = mnist.DCGAN()
     cgan = mnist.CGAN()
