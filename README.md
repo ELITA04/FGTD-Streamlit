@@ -6,7 +6,7 @@ Check the main repository [here](https://github.com/ELITA04/Face-Generator).
 ## Demo
 
 <p align="center">
-  <img width="460" height="300" src="assets/streamlit-demo.gif">
+  <img src="assets/streamlit-demo.gif">
 </p>
 
 ## How to set it up locally
