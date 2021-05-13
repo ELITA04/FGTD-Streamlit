@@ -5,7 +5,9 @@ Check the main repository [here](https://github.com/ELITA04/Face-Generator).
 
 ## Demo
 
-![demo-gif](assets/streamlit-demo.gif)
+<p align="center">
+  <img width="460" height="300" src="assets/streamlit-demo.gif">
+</p>
 
 ## How to set it up locally
  ### Using Docker
